@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proctoring Systems Evaluation | Ed Tech Committee Review</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --danger-light: #fca5a5;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-card-hover: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: #334155;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --gradient-3: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            --shadow-glow: 0 0 60px rgba(99, 102, 241, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(139, 92, 246, 0.05) 0%, transparent 70%);
+            animation: bgPulse 20s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 2rem;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 0.5rem 2rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-weight: 700;
+            font-size: 1.25rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0 6rem;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--gradient-2);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-light) 50%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .hero-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Section Styling */
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2 .icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-1);
+            border-radius: 10px;
+            font-size: 1.25rem;
+        }
+
+        .section-description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 800px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+            border-color: var(--primary);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        /* Executive Summary Grid */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .summary-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.75rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-card .icon-large {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .summary-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .summary-card .value {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .summary-card p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Key Findings */
+        .key-findings {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+            border: 1px solid var(--primary);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .key-findings h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .key-findings ul {
+            list-style: none;
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .key-findings li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+        }
+
+        .key-findings li::before {
+            content: '>';
+            color: var(--primary);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Comparison Table */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        thead {
+            background: rgba(99, 102, 241, 0.1);
+            position: sticky;
+            top: 0;
+        }
+
+        th {
+            padding: 1.25rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--primary);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        tr:hover td {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .vendor-name {
+            font-weight: 600;
+            color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-current {
+            background: var(--warning);
+            color: #000;
+        }
+
+        .badge-recommended {
+            background: var(--success);
+            color: #000;
+        }
+
+        .badge-consider {
+            background: var(--secondary);
+            color: #000;
+        }
+
+        /* Rating Stars */
+        .rating {
+            color: var(--warning);
+            font-size: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .rating-low { color: var(--danger); }
+        .rating-medium { color: var(--warning); }
+        .rating-high { color: var(--success); }
+
+        /* Price Comparison */
+        .price-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .price-low { color: var(--success); }
+        .price-medium { color: var(--warning); }
+        .price-high { color: var(--danger); }
+
+        /* Feature Tags */
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .feature-tag {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: rgba(99, 102, 241, 0.15);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--primary-light);
+        }
+
+        /* Vendor Cards */
+        .vendor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .vendor-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .vendor-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .vendor-card-header {
+            padding: 1.5rem;
+            background: var(--gradient-1);
+            position: relative;
+        }
+
+        .vendor-card-header.honorlock { background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%); }
+        .vendor-card-header.proctorio { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+        .vendor-card-header.respondus { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .vendor-card-header.proctoru { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); }
+        .vendor-card-header.examsoft { background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); }
+        .vendor-card-header.examity { background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); }
+        .vendor-card-header.seb { background: linear-gradient(135deg, #64748b 0%, #475569 100%); }
+
+        .vendor-card-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.25rem;
+        }
+
+        .vendor-card-header .tagline {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.875rem;
+        }
+
+        .vendor-card-body {
+            padding: 1.5rem;
+        }
+
+        .vendor-stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .vendor-stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .vendor-stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .vendor-stat-value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .vendor-card-footer {
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .pros h4, .cons h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .pros h4 { color: var(--success); }
+        .cons h4 { color: var(--danger); }
+
+        .pros ul, .cons ul {
+            list-style: none;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .pros li::before { content: '+'; color: var(--success); margin-right: 0.5rem; font-weight: bold; }
+        .cons li::before { content: '-'; color: var(--danger); margin-right: 0.5rem; font-weight: bold; }
+
+        /* Accessibility Section */
+        .a11y-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .a11y-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .a11y-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .a11y-score {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .score-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .score-high { background: rgba(16, 185, 129, 0.2); color: var(--success); border: 2px solid var(--success); }
+        .score-medium { background: rgba(245, 158, 11, 0.2); color: var(--warning); border: 2px solid var(--warning); }
+        .score-low { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 2px solid var(--danger); }
+
+        .compliance-list {
+            list-style: none;
+            font-size: 0.875rem;
+        }
+
+        .compliance-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .compliance-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* User Feedback Section */
+        .feedback-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .feedback-group h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feedback-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .feedback-card .quote {
+            font-style: italic;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--primary);
+            padding-left: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .feedback-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Research Highlight */
+        .research-highlight {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%);
+            border: 1px solid var(--danger);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .research-highlight h3 {
+            color: var(--danger);
+            margin-bottom: 1rem;
+        }
+
+        /* Recommendations */
+        .recommendation-card {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+            border: 2px solid var(--success);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recommendation-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .recommendation-card h3 {
+            font-size: 1.5rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .recommendation-card p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .recommendation-card .actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Cost Calculator */
+        .calculator {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .calculator h3 {
+            margin-bottom: 1.5rem;
+        }
+
+        .calc-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .calc-input-group label {
+            display: block;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-input-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .calc-input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .calc-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .calc-result {
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .calc-result .vendor {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-result .cost {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .calc-result .savings {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .savings-positive { color: var(--success); }
+        .savings-negative { color: var(--danger); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 0.5rem 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            main {
+                padding: 5rem 1rem 2rem;
+            }
+
+            .hero {
+                padding: 2rem 0 4rem;
+            }
+
+            .vendor-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .bg-gradient, .particles, nav {
+                display: none;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            .card, .vendor-card, .table-container {
+                break-inside: avoid;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="particles" id="particles"></div>
+
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">Proctoring Evaluation</div>
+            <ul class="nav-links">
+                <li><a href="#summary">Summary</a></li>
+                <li><a href="#comparison">Compare</a></li>
+                <li><a href="#vendors">Vendors</a></li>
+                <li><a href="#accessibility">Accessibility</a></li>
+                <li><a href="#feedback">Feedback</a></li>
+                <li><a href="#calculator">Calculator</a></li>
+                <li><a href="#recommendations">Recommendations</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-badge">Ed Tech Committee Review 2025</div>
+            <h1>Online Proctoring Systems Evaluation</h1>
+            <p class="hero-subtitle">A comprehensive analysis of proctoring alternatives to help our institution make an informed decision on academic integrity solutions.</p>
+            <div class="hero-meta">
+                <span>Prepared for Online Education Department</span>
+                <span>|</span>
+                <span>January 2025</span>
+                <span>|</span>
+                <span>7 Systems Evaluated</span>
+            </div>
+        </section>
+
+        <!-- Executive Summary -->
+        <section id="summary" class="fade-in">
+            <div class="section-header">
+                <h2><span class="icon">1</span> Executive Summary</h2>
+                <p class="section-description">Key findings from our comprehensive evaluation of online proctoring systems.</p>
+            </div>
+
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="icon-large">$</div>
+                    <h3>Current Annual Cost</h3>
+                    <div class="value">~$165,600</div>
+                    <p>Honorlock at $8.24/exam with 20,000 proctored exams/year</p>
+                </div>
+                <div class="summary-card">
+                    <div class="icon-large">%</div>
+                    <h3>Potential Savings</h3>
+                    <div class="value">40-65%</div>
+                    <p>Switching to alternatives like Respondus or Proctorio</p>
+                </div>
+                <div class="summary-card">
+                    <div class="icon-large">#</div>
+                    <h3>Vendors Evaluated</h3>
+                    <div class="value">7</div>
+                    <p>Major commercial and open-source solutions analyzed</p>
+                </div>
+                <div class="summary-card">
+                    <div class="icon-large">!</div>
+                    <h3>Critical Factor</h3>
+                    <div class="value">A11y</div>
+                    <p>Accessibility compliance varies significantly across vendors</p>
+                </div>
+            </div>
+
+            <div class="key-findings">
+                <h3>Key Findings</h3>
+                <ul>
+                    <li><strong>Honorlock pricing ($8-15/exam)</strong> is among the highest in the market. Per-exam pricing may be costing more than necessary for high-volume institutions.</li>
+                    <li><strong>Respondus LockDown Browser + Monitor</strong> offers the best value for institutions already using compatible LMS platforms, with site licensing that eliminates per-exam fees.</li>
+                    <li><strong>All AI-based proctoring systems</strong> show documented bias against students with darker skin tones, disabilities, and non-standard testing environments.</li>
+                    <li><strong>Accessibility compliance varies widely</strong> - many vendor VPATs are outdated (2+ years old) and should be independently verified.</li>
+                    <li><strong>Student anxiety and complaints</strong> are significant with all proctoring systems, but vary in severity based on surveillance intensity.</li>
+                    <li><strong>Safe Exam Browser</strong> offers an open-source alternative for basic lockdown functionality without privacy concerns, but lacks robust proctoring features.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Quick Comparison Table -->
+        <section id="comparison" class="fade-in">
+            <div class="section-header">
+                <h2><span class="icon">2</span> Quick Comparison Matrix</h2>
+                <p class="section-description">At-a-glance comparison of all evaluated proctoring systems.</p>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Vendor</th>
+                            <th>Pricing Model</th>
+                            <th>Est. Cost/Exam</th>
+                            <th>AI Proctoring</th>
+                            <th>Live Proctors</th>
+                            <th>LMS Integration</th>
+                            <th>VPAT Available</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="vendor-name">Honorlock</span></td>
+                            <td>Per exam/student</td>
+                            <td><span class="price-tag price-high">$8-15</span></td>
+                            <td>Yes</td>
+                            <td>Hybrid (on-demand)</td>
+                            <td>Canvas, BB, D2L</td>
+                            <td>Yes (2022)</td>
+                            <td><span class="badge badge-current">Current</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="vendor-name">Proctorio</span></td>
+                            <td>Per exam/custom</td>
+                            <td><span class="price-tag price-low">$3-5</span></td>
+                            <td>Yes</td>
+                            <td>No</td>
+                            <td>Canvas, BB, Moodle, D2L</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-consider">Consider</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="vendor-name">Respondus</span></td>
+                            <td>Site license</td>
+                            <td><span class="price-tag price-low">~$0*</span></td>
+                            <td>Yes (Monitor)</td>
+                            <td>No</td>
+                            <td>Canvas, BB, Moodle, D2L</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-recommended">Recommended</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="vendor-name">ProctorU/Meazure</span></td>
+                            <td>Per exam (tiered)</td>
+                            <td><span class="price-tag price-high">$15-35</span></td>
+                            <td>Yes</td>
+                            <td>Yes (Live+)</td>
+                            <td>Canvas, BB, Moodle, D2L</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-consider">Consider</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="vendor-name">ExamSoft</span></td>
+                            <td>Subscription</td>
+                            <td><span class="price-tag price-medium">Custom</span></td>
+                            <td>Yes (ExamMonitor)</td>
+                            <td>No</td>
+                            <td>Limited</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-consider">Niche Use</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="vendor-name">Examity</span></td>
+                            <td>Per exam (tiered)</td>
+                            <td><span class="price-tag price-medium">$10-25</span></td>
+                            <td>Yes</td>
+                            <td>Yes</td>
+                            <td>Canvas, BB, Moodle, D2L</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-consider">Consider</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="vendor-name">Safe Exam Browser</span></td>
+                            <td>Free (Open Source)</td>
+                            <td><span class="price-tag price-low">$0</span></td>
+                            <td>Limited</td>
+                            <td>Optional (Jitsi)</td>
+                            <td>Moodle (native)</td>
+                            <td>N/A</td>
+                            <td><span class="badge badge-consider">Supplement</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem;">* Respondus site license means no per-exam fees after initial license purchase. Annual license costs vary by institution size.</p>
+        </section>
+
+        <!-- Detailed Vendor Profiles -->
+        <section id="vendors" class="fade-in">
+            <div class="section-header">
+                <h2><span class="icon">3</span> Detailed Vendor Profiles</h2>
+                <p class="section-description">In-depth analysis of each proctoring solution including features, pricing, and considerations.</p>
+            </div>
+
+            <div class="vendor-grid">
+                <!-- Honorlock -->
+                <div class="vendor-card">
+                    <div class="vendor-card-header honorlock">
+                        <h3>Honorlock</h3>
+                        <span class="tagline">Current System - AI + Live Hybrid</span>
+                    </div>
+                    <div class="vendor-card-body">
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Pricing</span>
+                            <span class="vendor-stat-value price-high">$8-15/exam</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Model</span>
+                            <span class="vendor-stat-value">Per exam or per student</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Live Proctors</span>
+                            <span class="vendor-stat-value">On-demand when AI flags</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">LMS Support</span>
+                            <span class="vendor-stat-value">Canvas, Blackboard, D2L</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Browser</span>
+                            <span class="vendor-stat-value">Chrome Extension</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">VPAT Date</span>
+                            <span class="vendor-stat-value" style="color: var(--warning)">June 2022</span>
+                        </div>
+                    </div>
+                    <div class="vendor-card-footer">
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Strengths</h4>
+                                <ul>
+                                    <li>Hybrid AI + human model</li>
+                                    <li>Strong LMS integration</li>
+                                    <li>24/7 support included</li>
+                                    <li>Dedicated success manager</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Concerns</h4>
+                                <ul>
+                                    <li>Highest per-exam cost</li>
+                                    <li>Outdated VPAT (2022)</li>
+                                    <li>Student privacy concerns</li>
+                                    <li>Chrome-only limitation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proctorio -->
+                <div class="vendor-card">
+                    <div class="vendor-card-header proctorio">
+                        <h3>Proctorio</h3>
+                        <span class="tagline">Fully Automated AI Proctoring</span>
+                    </div>
+                    <div class="vendor-card-body">
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Pricing</span>
+                            <span class="vendor-stat-value price-low">$3-5/exam</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Model</span>
+                            <span class="vendor-stat-value">Custom institutional</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Live Proctors</span>
+                            <span class="vendor-stat-value">No - AI only</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">LMS Support</span>
+                            <span class="vendor-stat-value">Canvas, BB, Moodle, D2L</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Browser</span>
+                            <span class="vendor-stat-value">Chrome Extension</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Configuration</span>
+                            <span class="vendor-stat-value" style="color: var(--success)">Most options</span>
+                        </div>
+                    </div>
+                    <div class="vendor-card-footer">
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Strengths</h4>
+                                <ul>
+                                    <li>Significantly lower cost</li>
+                                    <li>Most configuration options</li>
+                                    <li>Instructor controls flags</li>
+                                    <li>Wide LMS support</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Concerns</h4>
+                                <ul>
+                                    <li>Privacy controversies</li>
+                                    <li>Past lawsuits</li>
+                                    <li>No live proctor option</li>
+                                    <li>Student setup challenges</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Respondus -->
+                <div class="vendor-card">
+                    <div class="vendor-card-header respondus">
+                        <h3>Respondus</h3>
+                        <span class="tagline">LockDown Browser + Monitor</span>
+                    </div>
+                    <div class="vendor-card-body">
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Pricing</span>
+                            <span class="vendor-stat-value price-low">Site License</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Model</span>
+                            <span class="vendor-stat-value">Annual campus-wide</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Live Proctors</span>
+                            <span class="vendor-stat-value">No - AI only</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">LMS Support</span>
+                            <span class="vendor-stat-value">Canvas, BB, Moodle, D2L</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Browser</span>
+                            <span class="vendor-stat-value">Dedicated App</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Market Share</span>
+                            <span class="vendor-stat-value" style="color: var(--success)">2,000+ institutions</span>
+                        </div>
+                    </div>
+                    <div class="vendor-card-footer">
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Strengths</h4>
+                                <ul>
+                                    <li>No per-exam fees</li>
+                                    <li>Proven reliability</li>
+                                    <li>Easy to use</li>
+                                    <li>Deep LMS integration</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Concerns</h4>
+                                <ul>
+                                    <li>Windows-centric (v4.0)</li>
+                                    <li>No live proctor option</li>
+                                    <li>Less configurable</li>
+                                    <li>Separate app required</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ProctorU -->
+                <div class="vendor-card">
+                    <div class="vendor-card-header proctoru">
+                        <h3>ProctorU / Meazure</h3>
+                        <span class="tagline">Live + AI Proctoring Options</span>
+                    </div>
+                    <div class="vendor-card-body">
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Pricing</span>
+                            <span class="vendor-stat-value price-high">$15-35/exam</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Model</span>
+                            <span class="vendor-stat-value">Tiered (Record+, Review+, Live+)</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Live Proctors</span>
+                            <span class="vendor-stat-value" style="color: var(--success)">Yes (Live+ tier)</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">LMS Support</span>
+                            <span class="vendor-stat-value">Canvas, BB, Moodle, D2L</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Support</span>
+                            <span class="vendor-stat-value">24/7 for students</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Scheduling</span>
+                            <span class="vendor-stat-value">Flexible, global</span>
+                        </div>
+                    </div>
+                    <div class="vendor-card-footer">
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Strengths</h4>
+                                <ul>
+                                    <li>Live proctor available</li>
+                                    <li>Less instructor review</li>
+                                    <li>Strong student support</li>
+                                    <li>Flexible scheduling</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Concerns</h4>
+                                <ul>
+                                    <li>Highest overall cost</li>
+                                    <li>More setup time</li>
+                                    <li>Less configuration</li>
+                                    <li>Scheduling complexity</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ExamSoft -->
+                <div class="vendor-card">
+                    <div class="vendor-card-header examsoft">
+                        <h3>ExamSoft</h3>
+                        <span class="tagline">Assessment Platform with Proctoring</span>
+                    </div>
+                    <div class="vendor-card-body">
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Pricing</span>
+                            <span class="vendor-stat-value price-medium">Custom subscription</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Model</span>
+                            <span class="vendor-stat-value">Enterprise licensing</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Features</span>
+                            <span class="vendor-stat-value">ExamID + ExamMonitor</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Target Market</span>
+                            <span class="vendor-stat-value">Medical, Law, Nursing</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Platform</span>
+                            <span class="vendor-stat-value">Windows, Mac, iPad</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Parent Company</span>
+                            <span class="vendor-stat-value">Turnitin</span>
+                        </div>
+                    </div>
+                    <div class="vendor-card-footer">
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Strengths</h4>
+                                <ul>
+                                    <li>Full assessment platform</li>
+                                    <li>High-stakes exam focus</li>
+                                    <li>Detailed analytics</li>
+                                    <li>iPad support</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Concerns</h4>
+                                <ul>
+                                    <li>Higher cost tier</li>
+                                    <li>Limited LMS integration</li>
+                                    <li>Niche market focus</li>
+                                    <li>Complex implementation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Safe Exam Browser -->
+                <div class="vendor-card">
+                    <div class="vendor-card-header seb">
+                        <h3>Safe Exam Browser</h3>
+                        <span class="tagline">Open Source Lockdown Browser</span>
+                    </div>
+                    <div class="vendor-card-body">
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Pricing</span>
+                            <span class="vendor-stat-value price-low">FREE</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Model</span>
+                            <span class="vendor-stat-value">Open source (MPL)</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Proctoring</span>
+                            <span class="vendor-stat-value">Optional (Jitsi/Zoom)</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">LMS Support</span>
+                            <span class="vendor-stat-value">Moodle (native), others</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Privacy</span>
+                            <span class="vendor-stat-value" style="color: var(--success)">No cloud connection</span>
+                        </div>
+                        <div class="vendor-stat-row">
+                            <span class="vendor-stat-label">Server</span>
+                            <span class="vendor-stat-value">Self-hosted optional</span>
+                        </div>
+                    </div>
+                    <div class="vendor-card-footer">
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Strengths</h4>
+                                <ul>
+                                    <li>Completely free</li>
+                                    <li>Privacy-focused</li>
+                                    <li>Self-hostable</li>
+                                    <li>On-device AI</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Concerns</h4>
+                                <ul>
+                                    <li>No ID verification</li>
+                                    <li>Setup complexity</li>
+                                    <li>Limited monitoring</li>
+                                    <li>MacOS WebRTC issues</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accessibility Section -->
+        <section id="accessibility" class="fade-in">
+            <div class="section-header">
+                <h2><span class="icon">4</span> Accessibility Compliance</h2>
+                <p class="section-description">Critical analysis of accessibility standards compliance across all evaluated systems.</p>
+            </div>
+
+            <div class="research-highlight">
+                <h3>Critical Research Finding: Bias in AI Proctoring</h3>
+                <p>A <strong>2022 Frontiers in Education study</strong> found significant disparities in automated proctoring software:</p>
+                <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+                    <li><strong>Students with darker skin tones</strong> were significantly more likely to be flagged for review</li>
+                    <li><strong>Black students</strong> showed increased likelihood of being marked for potential cheating</li>
+                    <li><strong>Women with darkest skin tones</strong> were far more likely to be flagged than any other group</li>
+                    <li>Root cause: Training datasets predominantly composed of white males aged 18-35</li>
+                </ul>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">Source: <a href="https://www.frontiersin.org/articles/10.3389/feduc.2022.881449/full" target="_blank" style="color: var(--primary-light);">Frontiers in Education - Racial, skin tone, and sex disparities in automated proctoring software</a></p>
+            </div>
+
+            <div class="a11y-grid">
+                <div class="a11y-card">
+                    <h4>WCAG 2.1 AA Compliance</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Minimum standard required for higher education</p>
+                    <div class="compliance-list">
+                        <li><span>Honorlock</span><span style="color: var(--warning)">Partially Supports</span></li>
+                        <li><span>Proctorio</span><span style="color: var(--warning)">Partially Supports</span></li>
+                        <li><span>Respondus</span><span style="color: var(--success)">Supports</span></li>
+                        <li><span>ProctorU</span><span style="color: var(--warning)">Partially Supports</span></li>
+                        <li><span>ExamSoft</span><span style="color: var(--warning)">Partially Supports</span></li>
+                    </div>
+                </div>
+
+                <div class="a11y-card">
+                    <h4>Section 508 Compliance</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Required for federal funding recipients</p>
+                    <div class="compliance-list">
+                        <li><span>Honorlock</span><span style="color: var(--success)">Supports</span></li>
+                        <li><span>Proctorio</span><span style="color: var(--success)">Supports</span></li>
+                        <li><span>Respondus</span><span style="color: var(--success)">Supports</span></li>
+                        <li><span>ProctorU</span><span style="color: var(--success)">Supports</span></li>
+                        <li><span>ExamSoft</span><span style="color: var(--success)">Supports</span></li>
+                    </div>
+                </div>
+
+                <div class="a11y-card">
+                    <h4>Screen Reader Compatibility</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">JAWS, NVDA, VoiceOver support</p>
+                    <div class="compliance-list">
+                        <li><span>Honorlock</span><span style="color: var(--warning)">Limited</span></li>
+                        <li><span>Proctorio</span><span style="color: var(--warning)">Limited</span></li>
+                        <li><span>Respondus</span><span style="color: var(--success)">Good</span></li>
+                        <li><span>ProctorU</span><span style="color: var(--warning)">Limited</span></li>
+                        <li><span>ExamSoft</span><span style="color: var(--warning)">Limited</span></li>
+                    </div>
+                </div>
+
+                <div class="a11y-card">
+                    <h4>VPAT Currency</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">VPATs older than 2 years are considered outdated</p>
+                    <div class="compliance-list">
+                        <li><span>Honorlock</span><span style="color: var(--danger)">June 2022</span></li>
+                        <li><span>Proctorio</span><span style="color: var(--warning)">Varies</span></li>
+                        <li><span>Respondus</span><span style="color: var(--success)">Recent</span></li>
+                        <li><span>ProctorU</span><span style="color: var(--warning)">Varies</span></li>
+                        <li><span>ExamSoft</span><span style="color: var(--warning)">Request needed</span></li>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Key Accessibility Considerations</h3>
+                <ul style="list-style: none; display: grid; gap: 0.75rem;">
+                    <li style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                        <span style="color: var(--warning); font-size: 1.25rem;">!</span>
+                        <div>
+                            <strong>Extended Time Accommodations</strong>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">All vendors support extended time, but implementation varies. Verify accommodation workflows with your Disability Services office.</p>
+                        </div>
+                    </li>
+                    <li style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                        <span style="color: var(--warning); font-size: 1.25rem;">!</span>
+                        <div>
+                            <strong>Assistive Technology Compatibility</strong>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">Browser lockdown features may conflict with screen readers, magnification software, and other assistive technologies. Test thoroughly before deployment.</p>
+                        </div>
+                    </li>
+                    <li style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                        <span style="color: var(--warning); font-size: 1.25rem;">!</span>
+                        <div>
+                            <strong>AI Flagging and Disabilities</strong>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">Students with movement disorders, tics, or visual impairments may be disproportionately flagged by AI algorithms that detect "suspicious" behavior.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- User Feedback Section -->
+        <section id="feedback" class="fade-in">
+            <div class="section-header">
+                <h2><span class="icon">5</span> User Feedback & Research</h2>
+                <p class="section-description">Aggregated feedback from students, faculty, and administrators across multiple institutions.</p>
+            </div>
+
+            <div class="feedback-container">
+                <div class="feedback-group">
+                    <h3>Student Perspectives</h3>
+
+                    <div class="feedback-card">
+                        <div class="quote">"The software couldn't validate my identity and I was denied access to tests so often that I had to go to my professor to make other arrangements."</div>
+                        <div class="feedback-meta">Black student reporting facial recognition issues with Proctorio</div>
+                    </div>
+
+                    <div class="feedback-card">
+                        <div class="quote">"I tried signing in from the brightest room in my apartment - the bathroom. I began to suspect it was my dark skin tone causing issues."</div>
+                        <div class="feedback-meta">Law student Areeb Khan on ExamSoft's Examplify platform</div>
+                    </div>
+
+                    <div class="feedback-card">
+                        <div class="quote">"The anxiety of being watched and recorded, combined with fear of being falsely flagged, made it impossible to focus on the actual exam content."</div>
+                        <div class="feedback-meta">Common student complaint across multiple proctoring platforms</div>
+                    </div>
+
+                    <div class="card" style="background: rgba(239, 68, 68, 0.1); border-color: var(--danger);">
+                        <h4 style="color: var(--danger); margin-bottom: 0.75rem;">Key Student Concerns</h4>
+                        <ul style="font-size: 0.9rem; color: var(--text-secondary); margin-left: 1.25rem;">
+                            <li>Privacy invasion from home environment monitoring</li>
+                            <li>Test anxiety amplified by surveillance</li>
+                            <li>Technical failures causing exam disruptions</li>
+                            <li>Racial bias in facial recognition</li>
+                            <li>Unfair flagging for normal behaviors (looking away, fidgeting)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="feedback-group">
+                    <h3>Faculty Perspectives</h3>
+
+                    <div class="feedback-card">
+                        <div class="quote">"Proctorio is more efficient than Respondus Monitor in cheating detection and allows instructors to control the playback speed of videos for faster review."</div>
+                        <div class="feedback-meta">Faculty comparison of review workflows</div>
+                    </div>
+
+                    <div class="feedback-card">
+                        <div class="quote">"ProctorU requires the most setup time but the least review time since live proctors handle most issues during the exam."</div>
+                        <div class="feedback-meta">CSUN faculty report on proctoring services</div>
+                    </div>
+
+                    <div class="feedback-card">
+                        <div class="quote">"The time spent reviewing flagged incidents often exceeds the time saved by not proctoring exams in person."</div>
+                        <div class="feedback-meta">Common faculty frustration with AI-only proctoring</div>
+                    </div>
+
+                    <div class="card" style="background: rgba(99, 102, 241, 0.1); border-color: var(--primary);">
+                        <h4 style="color: var(--primary-light); margin-bottom: 0.75rem;">Key Faculty Preferences</h4>
+                        <ul style="font-size: 0.9rem; color: var(--text-secondary); margin-left: 1.25rem;">
+                            <li>Configurable settings to reduce false positives</li>
+                            <li>Efficient video review interfaces</li>
+                            <li>Strong LMS integration for easy setup</li>
+                            <li>Clear accommodation workflows</li>
+                            <li>Reliable technical support</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="feedback-group">
+                    <h3>Administrator Perspectives</h3>
+
+                    <div class="feedback-card">
+                        <div class="quote">"The pricing could be a barrier to entry for a lot of institutions. It's important to emphasize the importance to justify the cost."</div>
+                        <div class="feedback-meta">G2 review on Honorlock pricing</div>
+                    </div>
+
+                    <div class="feedback-card">
+                        <div class="quote">"Large schools need pricing that's clear and scalable. Per-exam fees become unpredictable at our volume."</div>
+                        <div class="feedback-meta">University administrator on proctoring costs</div>
+                    </div>
+
+                    <div class="card" style="background: rgba(16, 185, 129, 0.1); border-color: var(--success);">
+                        <h4 style="color: var(--success); margin-bottom: 0.75rem;">Key Admin Priorities</h4>
+                        <ul style="font-size: 0.9rem; color: var(--text-secondary); margin-left: 1.25rem;">
+                            <li>Predictable, scalable pricing</li>
+                            <li>FERPA and data privacy compliance</li>
+                            <li>Accessibility compliance documentation</li>
+                            <li>Strong vendor support and SLAs</li>
+                            <li>Implementation and training resources</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cost Calculator -->
+        <section id="calculator" class="fade-in">
+            <div class="section-header">
+                <h2><span class="icon">6</span> Cost Comparison Calculator</h2>
+                <p class="section-description">Estimate your institution's costs with different proctoring providers.</p>
+            </div>
+
+            <div class="calculator">
+                <h3>Calculate Your Estimated Annual Costs</h3>
+
+                <div class="calc-inputs">
+                    <div class="calc-input-group">
+                        <label for="exams">Proctored Exams Per Year</label>
+                        <input type="number" id="exams" value="20000" min="0" onchange="calculateCosts()">
+                    </div>
+                    <div class="calc-input-group">
+                        <label for="students">Total Students (for site licenses)</label>
+                        <input type="number" id="students" value="15000" min="0" onchange="calculateCosts()">
+                    </div>
+                </div>
+
+                <div class="calc-results" id="results">
+                    <!-- Results populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommendations -->
+        <section id="recommendations" class="fade-in">
+            <div class="section-header">
+                <h2><span class="icon">7</span> Recommendations</h2>
+                <p class="section-description">Based on our comprehensive analysis, here are our recommendations for the Ed Tech Committee.</p>
+            </div>
+
+            <div class="recommendation-card">
+                <h3>Primary Recommendation: Respondus LockDown Browser + Monitor</h3>
+                <p>For institutions seeking the best balance of cost, functionality, and reliability, Respondus offers the strongest value proposition. The site licensing model eliminates per-exam cost anxiety and provides predictable budgeting. With 2,000+ institutions already using the platform, it represents a proven, stable solution.</p>
+                <div class="actions">
+                    <a href="https://web.respondus.com/" target="_blank" class="btn btn-primary">Visit Respondus</a>
+                    <a href="https://web.respondus.com/lockdown-browser-monitor/" target="_blank" class="btn btn-secondary">Learn About Monitor</a>
+                </div>
+            </div>
+
+            <div class="card" style="margin: 2rem 0;">
+                <h3 style="margin-bottom: 1.5rem;">Alternative Considerations</h3>
+
+                <div style="display: grid; gap: 1.5rem;">
+                    <div style="padding: 1.25rem; background: rgba(59, 130, 246, 0.1); border-radius: 12px; border-left: 4px solid var(--secondary);">
+                        <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">Proctorio - Best for Maximum Flexibility</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem;">If instructor control and configuration options are paramount, Proctorio offers the most granular settings. However, weigh this against documented privacy controversies and student concerns.</p>
+                    </div>
+
+                    <div style="padding: 1.25rem; background: rgba(139, 92, 246, 0.1); border-radius: 12px; border-left: 4px solid #8b5cf6;">
+                        <h4 style="color: #a78bfa; margin-bottom: 0.5rem;">ProctorU - Best for High-Stakes Exams</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem;">For certification programs or high-stakes assessments where live proctoring is required, ProctorU's Live+ tier provides the strongest integrity guarantee, albeit at premium pricing.</p>
+                    </div>
+
+                    <div style="padding: 1.25rem; background: rgba(100, 116, 139, 0.1); border-radius: 12px; border-left: 4px solid #64748b;">
+                        <h4 style="color: #94a3b8; margin-bottom: 0.5rem;">Safe Exam Browser - Best for Privacy-Conscious</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem;">For institutions prioritizing student privacy or seeking a supplementary lockdown tool, SEB offers a free, open-source option. Best used alongside other assessment integrity measures.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="margin-bottom: 1rem;">Recommended Next Steps</h3>
+                <ol style="color: var(--text-secondary); margin-left: 1.25rem; line-height: 2;">
+                    <li><strong>Request current VPATs</strong> from top vendor candidates (ensure they're less than 2 years old)</li>
+                    <li><strong>Schedule demos</strong> with Respondus and one alternative (Proctorio or Examity)</li>
+                    <li><strong>Conduct pilot testing</strong> with Disability Services to verify accessibility workflows</li>
+                    <li><strong>Survey faculty</strong> about current Honorlock pain points and feature priorities</li>
+                    <li><strong>Negotiate pricing</strong> based on actual exam volume and multi-year commitments</li>
+                    <li><strong>Review contracts</strong> for FERPA compliance, data retention policies, and exit clauses</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Sources -->
+        <section id="sources" class="fade-in">
+            <div class="section-header">
+                <h2><span class="icon">8</span> Sources & References</h2>
+            </div>
+
+            <div class="card">
+                <h4 style="margin-bottom: 1rem;">Research & Studies</h4>
+                <ul style="list-style: none; display: grid; gap: 0.5rem; font-size: 0.9rem;">
+                    <li><a href="https://www.frontiersin.org/articles/10.3389/feduc.2022.881449/full" target="_blank" style="color: var(--primary-light);">Frontiers in Education - Racial, skin tone, and sex disparities in automated proctoring software</a></li>
+                    <li><a href="https://www.technologyreview.com/2020/08/07/1006132/software-algorithms-proctoring-online-tests-ai-ethics/" target="_blank" style="color: var(--primary-light);">MIT Technology Review - Software that monitors students during tests perpetuates inequality</a></li>
+                    <li><a href="http://www.csun.edu/exlinfo/dl/pdf/report-proctoringservices_final.pdf" target="_blank" style="color: var(--primary-light);">CSUN - ProctorU, Respondus Monitor and Proctorio Comparison</a></li>
+                </ul>
+
+                <h4 style="margin: 1.5rem 0 1rem;">Vendor Resources</h4>
+                <ul style="list-style: none; display: grid; gap: 0.5rem; font-size: 0.9rem;">
+                    <li><a href="https://honorlock.com/accessibility-statement/" target="_blank" style="color: var(--primary-light);">Honorlock Accessibility Statement</a></li>
+                    <li><a href="https://honorlock.com/wp-content/uploads/2022/06/Honorlock-Student-VPAT-6.28.22.pdf" target="_blank" style="color: var(--primary-light);">Honorlock Student VPAT (June 2022)</a></li>
+                    <li><a href="https://www.safeexambrowser.org/about_overview_en.html" target="_blank" style="color: var(--primary-light);">Safe Exam Browser - About</a></li>
+                </ul>
+
+                <h4 style="margin: 1.5rem 0 1rem;">Review Platforms</h4>
+                <ul style="list-style: none; display: grid; gap: 0.5rem; font-size: 0.9rem;">
+                    <li><a href="https://www.g2.com/products/honorlock/reviews" target="_blank" style="color: var(--primary-light);">G2 - Honorlock Reviews</a></li>
+                    <li><a href="https://www.capterra.com/p/228304/Honorlock/" target="_blank" style="color: var(--primary-light);">Capterra - Honorlock Alternatives</a></li>
+                    <li><a href="https://sourceforge.net/software/compare/ProctorU-vs-Proctorio-vs-Respondus-Monitor/" target="_blank" style="color: var(--primary-light);">SourceForge - ProctorU vs Proctorio vs Respondus Comparison</a></li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Proctoring Systems Evaluation Report</p>
+        <p style="font-size: 0.875rem;">Prepared for the Ed Tech Committee | January 2025</p>
+        <div class="footer-links">
+            <a href="#summary">Back to Top</a>
+            <a href="javascript:window.print()">Print Report</a>
+        </div>
+    </footer>
+
+    <script>
+        // Particle Animation
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Nav scroll effect
+        const nav = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(el => observer.observe(el));
+
+        // Cost Calculator
+        function calculateCosts() {
+            const exams = parseInt(document.getElementById('exams').value) || 0;
+            const students = parseInt(document.getElementById('students').value) || 0;
+
+            const costs = {
+                honorlock: { min: exams * 8, max: exams * 15, label: 'Honorlock' },
+                proctorio: { min: exams * 3, max: exams * 5, label: 'Proctorio' },
+                respondus: { min: 15000, max: 40000, label: 'Respondus (Est. Site License)' },
+                proctoru: { min: exams * 15, max: exams * 35, label: 'ProctorU' },
+                seb: { min: 0, max: 0, label: 'Safe Exam Browser' }
+            };
+
+            const currentCost = (costs.honorlock.min + costs.honorlock.max) / 2;
+
+            const resultsHtml = Object.values(costs).map(vendor => {
+                const avgCost = (vendor.min + vendor.max) / 2;
+                const savings = currentCost - avgCost;
+                const savingsClass = savings > 0 ? 'savings-positive' : 'savings-negative';
+                const savingsText = savings > 0 ? `Save ~$${savings.toLocaleString()}` :
+                                   savings < 0 ? `+$${Math.abs(savings).toLocaleString()}` : 'Current';
+
+                return `
+                    <div class="calc-result">
+                        <div class="vendor">${vendor.label}</div>
+                        <div class="cost">$${vendor.min.toLocaleString()} - $${vendor.max.toLocaleString()}</div>
+                        <div class="savings ${savingsClass}">${savingsText}</div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('results').innerHTML = resultsHtml;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            calculateCosts();
+        });
+    </script>
+</body>
+</html>
