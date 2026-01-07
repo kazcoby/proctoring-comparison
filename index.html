@@ -30,6 +30,342 @@
             --shadow-glow: 0 0 60px rgba(99, 102, 241, 0.15);
         }
 
+        /* Light Mode */
+        [data-theme="light"] {
+            --bg-dark: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow-glow: 0 0 60px rgba(99, 102, 241, 0.1);
+        }
+
+        [data-theme="light"] .bg-gradient {
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(6, 182, 212, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(139, 92, 246, 0.03) 0%, transparent 70%);
+        }
+
+        [data-theme="light"] .particle {
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        [data-theme="light"] nav {
+            background: rgba(248, 250, 252, 0.9);
+        }
+
+        [data-theme="light"] .nav-brand {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        [data-theme="light"] h1 {
+            background: linear-gradient(135deg, #1e293b 0%, var(--primary) 50%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            transition: all 0.3s ease;
+            font-size: 1.25rem;
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-card-hover);
+            transform: scale(1.05);
+        }
+
+        .theme-toggle .sun { display: none; }
+        .theme-toggle .moon { display: block; }
+        [data-theme="light"] .theme-toggle .sun { display: block; }
+        [data-theme="light"] .theme-toggle .moon { display: none; }
+
+        /* Decision Wizard */
+        .wizard-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .wizard-overlay.active {
+            display: flex;
+        }
+
+        .wizard-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .wizard-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .wizard-header h3 {
+            font-size: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .wizard-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .wizard-close:hover {
+            color: var(--text-primary);
+        }
+
+        .wizard-progress {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0 2rem;
+            margin-top: -0.5rem;
+        }
+
+        .wizard-progress-step {
+            flex: 1;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            transition: background 0.3s;
+        }
+
+        .wizard-progress-step.active {
+            background: var(--primary);
+        }
+
+        .wizard-progress-step.completed {
+            background: var(--success);
+        }
+
+        .wizard-body {
+            padding: 2rem;
+        }
+
+        .wizard-question {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .wizard-options {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .wizard-option {
+            background: rgba(99, 102, 241, 0.05);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .wizard-option:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .wizard-option.selected {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.15);
+        }
+
+        .wizard-option h4 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        .wizard-option p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .wizard-result {
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .wizard-result-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .wizard-result h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .wizard-result p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .wizard-result-details {
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+
+        .wizard-result-details ul {
+            list-style: none;
+            margin-top: 0.75rem;
+        }
+
+        .wizard-result-details li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .wizard-result-details li::before {
+            content: '>';
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .wizard-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .wizard-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .wizard-btn-back {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .wizard-btn-back:hover {
+            background: var(--bg-card-hover);
+            color: var(--text-primary);
+        }
+
+        .wizard-btn-next {
+            background: var(--gradient-1);
+            color: white;
+        }
+
+        .wizard-btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .wizard-btn-next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Wizard Launch Button */
+        .wizard-launch {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+            background: var(--gradient-1);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .wizard-launch:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .particles {
+                display: none;
+            }
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -951,8 +1287,40 @@
                 <li><a href="#calculator">Calculator</a></li>
                 <li><a href="#recommendations">Recommendations</a></li>
             </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+                <span class="sun">&#9728;</span>
+                <span class="moon">&#9790;</span>
+            </button>
         </div>
     </nav>
+
+    <!-- Decision Wizard -->
+    <div class="wizard-overlay" id="wizardOverlay">
+        <div class="wizard-container">
+            <div class="wizard-header">
+                <h3>Find Your Best Proctoring Solution</h3>
+                <button class="wizard-close" onclick="closeWizard()" aria-label="Close wizard">&times;</button>
+            </div>
+            <div class="wizard-progress" id="wizardProgress">
+                <div class="wizard-progress-step active"></div>
+                <div class="wizard-progress-step"></div>
+                <div class="wizard-progress-step"></div>
+                <div class="wizard-progress-step"></div>
+            </div>
+            <div class="wizard-body" id="wizardBody">
+                <!-- Content populated by JavaScript -->
+            </div>
+            <div class="wizard-footer">
+                <button class="wizard-btn wizard-btn-back" id="wizardBack" onclick="prevStep()">Back</button>
+                <button class="wizard-btn wizard-btn-next" id="wizardNext" onclick="nextStep()">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wizard Launch Button -->
+    <button class="wizard-launch" onclick="openWizard()" aria-label="Open decision wizard">
+        <span>?</span> Find Your Solution
+    </button>
 
     <main>
         <!-- Hero Section -->
@@ -1839,10 +2207,201 @@
             document.getElementById('results').innerHTML = resultsHtml;
         }
 
+        // ===== THEME TOGGLE =====
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('proctoring-theme');
+
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('proctoring-theme', newTheme);
+        });
+
+        // ===== DECISION WIZARD =====
+        const wizardQuestions = [
+            {
+                question: "What's your primary concern?",
+                options: [
+                    { id: 'cost', title: 'Cost Savings', desc: 'Looking to reduce proctoring expenses' },
+                    { id: 'features', title: 'Features & Control', desc: 'Need maximum configuration options' },
+                    { id: 'support', title: 'Live Support', desc: 'Want human proctors for high-stakes exams' },
+                    { id: 'privacy', title: 'Privacy & Ethics', desc: 'Minimizing student surveillance concerns' }
+                ]
+            },
+            {
+                question: "How many proctored exams per year?",
+                options: [
+                    { id: 'low', title: 'Under 5,000', desc: 'Small institution or limited proctoring use' },
+                    { id: 'medium', title: '5,000 - 20,000', desc: 'Medium-sized institution' },
+                    { id: 'high', title: '20,000 - 50,000', desc: 'Large institution with significant online programs' },
+                    { id: 'enterprise', title: '50,000+', desc: 'Enterprise-scale proctoring needs' }
+                ]
+            },
+            {
+                question: "Which LMS do you primarily use?",
+                options: [
+                    { id: 'canvas', title: 'Canvas', desc: 'Instructure Canvas LMS' },
+                    { id: 'blackboard', title: 'Blackboard', desc: 'Blackboard Learn' },
+                    { id: 'moodle', title: 'Moodle', desc: 'Open-source Moodle LMS' },
+                    { id: 'other', title: 'D2L / Other', desc: 'Brightspace or other LMS' }
+                ]
+            },
+            {
+                question: "What level of proctoring do you need?",
+                options: [
+                    { id: 'basic', title: 'Basic Lockdown', desc: 'Just prevent browser tabs and copying' },
+                    { id: 'automated', title: 'Automated AI', desc: 'AI-based monitoring without live proctors' },
+                    { id: 'hybrid', title: 'Hybrid AI + Live', desc: 'AI monitoring with live proctor on-demand' },
+                    { id: 'full', title: 'Full Live Proctoring', desc: 'Live human proctors for entire exam' }
+                ]
+            }
+        ];
+
+        const recommendations = {
+            'cost-low-canvas-basic': { name: 'Safe Exam Browser', reason: 'Free, open-source lockdown browser perfect for basic needs' },
+            'cost-low-canvas-automated': { name: 'Respondus', reason: 'Site license eliminates per-exam fees - best value for small volumes' },
+            'cost-medium-canvas-automated': { name: 'Respondus', reason: 'Flat-rate licensing saves significantly at your volume' },
+            'cost-high-canvas-automated': { name: 'Respondus', reason: 'Site license becomes extremely cost-effective at scale' },
+            'cost-enterprise-canvas-automated': { name: 'Respondus', reason: 'Best ROI for enterprise-scale automated proctoring' },
+            'features-low-canvas-automated': { name: 'Proctorio', reason: 'Most configuration options for instructor control' },
+            'features-medium-canvas-automated': { name: 'Proctorio', reason: 'Granular settings with reasonable per-exam pricing' },
+            'features-high-canvas-automated': { name: 'Proctorio', reason: 'Flexible settings scale well for larger institutions' },
+            'support-medium-canvas-hybrid': { name: 'Honorlock', reason: 'Current system with on-demand live proctor support' },
+            'support-high-canvas-hybrid': { name: 'Honorlock', reason: 'Strong support infrastructure for high-volume hybrid needs' },
+            'support-medium-canvas-full': { name: 'ProctorU Live+', reason: 'Best-in-class live proctoring for high-stakes exams' },
+            'support-high-canvas-full': { name: 'ProctorU Live+', reason: 'Professional live proctors with 24/7 availability' },
+            'privacy-low-canvas-basic': { name: 'Safe Exam Browser', reason: 'No cloud connection, fully local - maximum privacy' },
+            'privacy-medium-canvas-automated': { name: 'Respondus', reason: 'Good balance of security and privacy concerns' },
+            'privacy-high-moodle-basic': { name: 'Safe Exam Browser', reason: 'Native Moodle integration, fully open-source and private' },
+            'default': { name: 'Respondus', reason: 'Best overall balance of cost, features, and reliability' }
+        };
+
+        let currentStep = 0;
+        let answers = [];
+
+        function openWizard() {
+            document.getElementById('wizardOverlay').classList.add('active');
+            currentStep = 0;
+            answers = [];
+            renderStep();
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeWizard() {
+            document.getElementById('wizardOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function renderStep() {
+            const body = document.getElementById('wizardBody');
+            const progress = document.querySelectorAll('.wizard-progress-step');
+            const backBtn = document.getElementById('wizardBack');
+            const nextBtn = document.getElementById('wizardNext');
+
+            // Update progress
+            progress.forEach((step, i) => {
+                step.classList.remove('active', 'completed');
+                if (i < currentStep) step.classList.add('completed');
+                if (i === currentStep) step.classList.add('active');
+            });
+
+            // Show/hide back button
+            backBtn.style.visibility = currentStep === 0 ? 'hidden' : 'visible';
+
+            if (currentStep < wizardQuestions.length) {
+                const q = wizardQuestions[currentStep];
+                body.innerHTML = `
+                    <div class="wizard-question">${q.question}</div>
+                    <div class="wizard-options">
+                        ${q.options.map(opt => `
+                            <div class="wizard-option ${answers[currentStep] === opt.id ? 'selected' : ''}"
+                                 onclick="selectOption('${opt.id}')">
+                                <h4>${opt.title}</h4>
+                                <p>${opt.desc}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                nextBtn.textContent = currentStep === wizardQuestions.length - 1 ? 'Get Recommendation' : 'Next';
+                nextBtn.disabled = !answers[currentStep];
+            } else {
+                // Show result
+                const key = answers.join('-');
+                const rec = recommendations[key] || recommendations['default'];
+
+                body.innerHTML = `
+                    <div class="wizard-result">
+                        <div class="wizard-result-icon">&#127942;</div>
+                        <h4>Recommended: ${rec.name}</h4>
+                        <p>${rec.reason}</p>
+                        <div class="wizard-result-details">
+                            <strong>Based on your selections:</strong>
+                            <ul>
+                                <li>Priority: ${wizardQuestions[0].options.find(o => o.id === answers[0])?.title}</li>
+                                <li>Volume: ${wizardQuestions[1].options.find(o => o.id === answers[1])?.title}</li>
+                                <li>LMS: ${wizardQuestions[2].options.find(o => o.id === answers[2])?.title}</li>
+                                <li>Proctoring Level: ${wizardQuestions[3].options.find(o => o.id === answers[3])?.title}</li>
+                            </ul>
+                        </div>
+                        <a href="#vendors" class="btn btn-primary" onclick="closeWizard()">View Vendor Details</a>
+                    </div>
+                `;
+
+                nextBtn.textContent = 'Start Over';
+                backBtn.style.visibility = 'visible';
+            }
+        }
+
+        function selectOption(id) {
+            answers[currentStep] = id;
+            renderStep();
+        }
+
+        function nextStep() {
+            if (currentStep >= wizardQuestions.length) {
+                currentStep = 0;
+                answers = [];
+                renderStep();
+                return;
+            }
+
+            if (answers[currentStep]) {
+                currentStep++;
+                renderStep();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                renderStep();
+            }
+        }
+
+        // Close wizard on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('wizardOverlay').classList.contains('active')) {
+                closeWizard();
+            }
+        });
+
+        // Close wizard on overlay click
+        document.getElementById('wizardOverlay').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('wizardOverlay')) {
+                closeWizard();
+            }
+        });
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             createParticles();
             calculateCosts();
+            renderStep(); // Initialize wizard content
         });
     </script>
 </body>
